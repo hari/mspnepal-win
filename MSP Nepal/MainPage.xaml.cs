@@ -1,30 +1,47 @@
-﻿using System;
+﻿using Windows.UI.Xaml.Controls;
+using Windows.Data.Json;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using System;
 
 namespace MSP_Nepal
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            if (MspList.IsFirstRun())
+            {
+                ShowLoading();
+                LoadAndSave();
+                MspList.SetFirstRun(false);
+            }
+
         }
+        private void ShowLoading()
+        {
+
+        }
+
+        /// <summary>
+        /// Downloads that from server and then stores it in our local database
+        /// </summary>
+        public async void LoadAndSave()
+        {
+            List<MSP> list = new List<MSP>();
+            JsonArray jsonList = JsonArray.Parse(await MspList.GetData());
+            for(int i = jsonList.Count - 1;i >= 0; --i)
+            {
+                
+                JsonObject obj = jsonList.GetObjectAt((uint)i);
+                list.Add(new MSP(
+                     obj.GetNamedString("full_name"),
+                     obj.GetNamedString("college"),
+                     string.Empty
+                    ));
+            }
+            MspList.AddAll(list);
+        }
+        
     }
 }
