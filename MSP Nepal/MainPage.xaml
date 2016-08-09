@@ -7,7 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    </Grid>
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="8">
+        <TextBox TextChanging="TxtSearch_TextChanging" PlaceholderText="Search.." Name="TxtSearch"
+                 KeyUp="TxtSearch_KeyUp"
+                 RelativePanel.AlignLeftWithPanel="True"
+                 RelativePanel.LeftOf="BtnSearch" />
+        <Button Content="Q" Name="BtnSearch" RelativePanel.AlignRightWithPanel="True" Margin="8,0,0,0" Click="BtnSearch_Click" />
+        <StackPanel Name="A2Z" Orientation="Horizontal" RelativePanel.Below="TxtSearch" Margin="0,8,0,8"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  HorizontalAlignment="Stretch"/>
+        <ListView Name="ListMsp" RelativePanel.Below="A2Z"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignBottomWithPanel="True"
+                  />
+    </RelativePanel>
 </Page>
