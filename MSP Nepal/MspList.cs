@@ -1,39 +1,63 @@
-﻿using System.Net.Http;
+﻿using System;
+using Windows.Web.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using SQLite.Net;
+using System.Linq;
+using Windows.Storage; 
 
 namespace MSP_Nepal
 {
     class MspList
     {
-        const string APP_URL = "http://myjson.com/3r0jd", FIRST_RUN = "first_run";
+        const string APP_URL = "https://api.myjson.com/bins/3r0jd", FIRST_RUN = "first_run";
 
-        public bool IsFirstRun()
+        private static SQLiteConnection conn;
+
+        public static bool IsFirstRun()
         {
-            var data = Windows.Storage.ApplicationData.Current.LocalSettings;
-            return data.Values[FIRST_RUN] == null;
+            return ApplicationData.Current.LocalSettings.Values[FIRST_RUN] == null;
         }
 
-        public void SetFirstRun(bool value)
+        public static void SetFirstRun(bool value)
         {
-            var data = Windows.Storage.ApplicationData.Current.LocalSettings;
-            data.Values[FIRST_RUN] = value;
+            ApplicationData.Current.LocalSettings.Values[FIRST_RUN] = value;
         }
-        public static void CreateDataBase()
-        {
-            var path = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "LisDb.sqlite");
-            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), path))
 
+        private static SQLiteConnection GetConnection()
+        {
+            if (conn == null)
             {
-
-                conn.CreateTable<MSP>();
-
+                conn = new SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(),
+                    System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "MspList.sqlite"));
             }
+            return conn;
         }
 
-        public Task<HttpResponseMessage> GetData()
+        public static int CreateTable()
         {
-            HttpClient client = new HttpClient();
-            return client.GetAsync(APP_URL);
+            return GetConnection().CreateTable<MSP>();
+        }
+
+        public static int AddAll(List<MSP> msps)
+        {
+            return GetConnection().InsertAll(msps);
+        }
+
+        public static int AddMSP(MSP msp)
+        {
+            return GetConnection().Insert(msp);
+        }
+
+        public static List<MSP> GetMSP()
+        {
+            return (from msp in GetConnection().Table<MSP>() select msp).ToList();
+
+        }
+
+        public static async Task<string> GetData()
+        {
+            return await new HttpClient().GetStringAsync(new Uri(APP_URL));
         }
 
     }
