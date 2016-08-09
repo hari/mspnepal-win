@@ -8,7 +8,7 @@
         {
             FullName = name;
             College = clg;
-            bio = Bio;
+            Bio = bio;
         }
     }
 }
