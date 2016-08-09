@@ -18,6 +18,17 @@ namespace MSP_Nepal
             var data = Windows.Storage.ApplicationData.Current.LocalSettings;
             data.Values[FIRST_RUN] = value;
         }
+        public static void CreateDataBase()
+        {
+            var path = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "LisDb.sqlite");
+            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), path))
+
+            {
+
+                conn.CreateTable<MSP>();
+
+            }
+        }
 
         public Task<HttpResponseMessage> GetData()
         {
