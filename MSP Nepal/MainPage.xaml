@@ -18,6 +18,7 @@
                   RelativePanel.AlignLeftWithPanel="True"
                   HorizontalAlignment="Stretch"/>
         <ListView Name="ListMsp" RelativePanel.Below="A2Z"
+                   Margin="-8,0"
                   RelativePanel.AlignRightWithPanel="True"
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignBottomWithPanel="True"
