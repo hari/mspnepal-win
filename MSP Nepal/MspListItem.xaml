@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="MSP_Nepal.MspListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSP_Nepal"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <RelativePanel Background="Transparent" Margin="0,4">
+        <Border Name="BrdFirstName" Margin="0,0,8,0" Width="48" Height="48" HorizontalAlignment="Center">
+            <TextBlock Name="TxtFirstName" Text="A" FontSize="35" Foreground="#f7f7f7" FontWeight="Bold" TextAlignment="Center" />
+        </Border>
+        <TextBlock Name="TxtName" RelativePanel.AlignRightWithPanel="True" Text="Hari Lamichhane"
+                   FontSize="20"
+                   Typography.CapitalSpacing="True"
+                   RelativePanel.RightOf="BrdFirstName"/>
+        <TextBlock Name="TxtCollege" RelativePanel.Below="TxtName" Text="GCES"
+                   FontSize="13"
+                   Typography.CapitalSpacing="True"
+                   RelativePanel.AlignBottomWith="BrdFirstName"
+                   RelativePanel.RightOf="BrdFirstName"/>
+    </RelativePanel>
+</Page>
